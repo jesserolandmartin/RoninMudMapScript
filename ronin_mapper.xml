@@ -644,19 +644,19 @@ end</script>
 		<Script isActive="yes" isFolder="no">
 			<name>Map Script</name>
 			<packageName></packageName>
-			<script>-- Jor'Mox's Generic Map Script
--- 11/07/2018
-local version = "2.0.16"
+			<script>-- Kith's RoninMud Map Script
+-- Based on Jor'Mox's Generic Map Script
+-- 4/27/2020
+local version = "0.1"
 
-    -- look into options for non-standard door usage for speedwalk
-    -- come up with aliases to set translations and custom exits, add appropriate help info
+    -- initial package creation
 
 mudlet = mudlet or {}
 mudlet.mapper_script = true
 map = map or {}
 
 map.help = {[[
-    &lt;cyan&gt;Generic Map Script&lt;reset&gt;
+    &lt;cyan&gt; Map Script&lt;reset&gt;
 
     This script allows for semi-automatic mapping using the included triggers.
     While different games can have dramatically different ways of displaying
@@ -1142,7 +1142,7 @@ map.help.config = [[
 
         &lt;yellow&gt;download_path&lt;reset&gt; - This is the path that updates are downloaded from.
             This may be any web address where the versions.lua and
-            generic_mapper.xml files can be downloaded from.
+            ronin_mapper.xml files can be downloaded from.
 
         &lt;yellow&gt;prompt_test_patterns&lt;reset&gt; - This is a table of default patterns checked
             when using the "find prompt" command. The patterns in this table
@@ -1278,7 +1278,7 @@ map.defaults = {
         northwest = 'northwest', up = 'up', down = 'down',
     },
     debug = false,
-    download_path = "https://raw.githubusercontent.com/Mudlet/Mudlet/development/src/mudlet-lua/lua/generic-mapper",
+    download_path = "https://raw.githubusercontent.com/jesserolandmartin/RoninMudMapScript/master",
 }
 
 local move_queue, lines = {}, {}
@@ -1312,8 +1312,8 @@ local function config()
         stubmap[v[1]] = count
     end
     -- update to the current download path
-    if map.configs.download_path == "https://raw.githubusercontent.com/JorMox/Mudlet/development/src/mudlet-lua/lua/generic-mapper" then
-        map.configs.download_path = "https://raw.githubusercontent.com/Mudlet/Mudlet/development/src/mudlet-lua/lua/generic-mapper"
+    if map.configs.download_path == "https://raw.githubusercontent.com/jesserolandmartin/RoninMudMapScript/master" then
+        map.configs.download_path = "https://raw.githubusercontent.com/jesserolandmartin/RoninMudMapScript/master"
     end
 
     -- setup metatable to store sensitive values
@@ -2849,7 +2849,7 @@ end
 
 local function update_version()
     downloading = false
-    local path = profilePath .. "/map downloads/generic_mapper.xml"
+    local path = profilePath .. "/map downloads/ronin_mapper.xml"
     disableAlias("Map Update Alias")
     uninstallPackage("generic_mapper")
     installPackage(path)
@@ -2857,7 +2857,7 @@ local function update_version()
 end
 
 function map.updateVersion()
-    local path, file = profilePath .. "/map downloads", "/generic_mapper.xml"
+    local path, file = profilePath .. "/map downloads", "/ronin_mapper.xml"
     downloading = true
     downloadFile(path .. file, map.configs.download_path .. file)
 end
@@ -2942,7 +2942,7 @@ function map.eventHandler(event, ...)
             map.echo("Map File Loaded.")
         elseif string.ends(file,"/versions.lua") then
             check_version()
-        elseif string.ends(file,"/generic_mapper.xml") then
+        elseif string.ends(file,"/ronin_mapper.xml") then
             update_version()
         end
     elseif event == "sysLoadEvent" or event == "sysInstall" then
